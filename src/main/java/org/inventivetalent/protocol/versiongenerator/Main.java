@@ -47,13 +47,13 @@ public class Main {
 		List<String> keys = new ArrayList<>(versionMap.keySet());
 		Collections.sort(keys, (o1, o2) -> Integer.valueOf(o1).compareTo(Integer.valueOf(o2)));
 		for (String number : keys) {
-			String s = versionMap.get(number).replace(".", "_").replace("-", "_").toUpperCase() + "(" + number + "),";
+			String s = "v" + versionMap.get(number).replace(".", "_").replace("-", "_").toUpperCase() + "(" + number + "),";
 			System.out.println(s);
 			enums.add(s);
 		}
 
 		File file = new File("GENERATED_ENUMS");
-		if(!file.exists())file.createNewFile();
+		if (!file.exists()) { file.createNewFile(); }
 		try (Writer writer = new FileWriter(file)) {
 			for (String e : enums) {
 				writer.write(e + "\n");
