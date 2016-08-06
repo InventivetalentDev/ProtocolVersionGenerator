@@ -5,7 +5,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 public class Main {
@@ -39,10 +42,22 @@ public class Main {
 
 		System.out.println();
 
+		List<String> enums = new ArrayList<>();
+
 		List<String> keys = new ArrayList<>(versionMap.keySet());
 		Collections.sort(keys, (o1, o2) -> Integer.valueOf(o1).compareTo(Integer.valueOf(o2)));
 		for (String number : keys) {
-			System.out.println(versionMap.get(number).replace(".", "_").replace("-", "_").toUpperCase() + "(" + number + "),");
+			String s = versionMap.get(number).replace(".", "_").replace("-", "_").toUpperCase() + "(" + number + "),";
+			System.out.println(s);
+			enums.add(s);
+		}
+
+		File file = new File("GENERATED_ENUMS");
+		if(!file.exists())file.createNewFile();
+		try (Writer writer = new FileWriter(file)) {
+			for (String e : enums) {
+				writer.write(e + "\n");
+			}
 		}
 	}
 
